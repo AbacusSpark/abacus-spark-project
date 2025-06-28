@@ -33,7 +33,7 @@ exports.handler = async (event) => {
             `REQUESTED PRODUCTS:\n` +
             `${productList}\n` +
             `================================\n\n` +
-            `Please call the customer back to confirm the order.`,
+            `Please call me back to confirm the order.`,
     };
 
     await sgMail.send(msg);
