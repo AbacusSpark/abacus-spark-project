@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abacus Spark - Ignite Your Child's Mind</title>
+
+    <!-- Link to Font Awesome for Logos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Nunito:wght@800&display=swap');
+
+        :root {
+            --primary-color: #FFC300;
+            --secondary-color: #0077B6;
+            --accent-color: #F94144;
+            --dark-color: #333;
+            --light-color: #FFF;
+            --bg-color: #f8f9fa;
+            --success-color: #28a745;
+            --border-color: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--dark-color); line-height: 1.6; }
+        .container { max-width: 1100px; margin: auto; padding: 0 20px; }
+        h1, h2, h3 { font-weight: 700; color: var(--secondary-color); }
+        
+        /* HEADER & NAVIGATION */
+        .main-header { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 1rem 0; position: sticky; top: 0; z-index: 100; }
+        .main-header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Nunito', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--secondary-color); text-decoration: none; }
+        .logo span { color: var(--primary-color); }
+        .main-nav a { color: var(--dark-color); text-decoration: none; margin: 0 15px; font-weight: 600; }
+        .cart-icon { font-size: 1.5rem; position: relative; color: var(--dark-color); }
+        .cart-count { position: absolute; top: -5px; right: -10px; background: var(--accent-color); color: var(--light-color); border-radius: 50%; width: 20px; height: 20px; font-size: 0.8rem; display: flex; justify-content: center; align-items: center; font-weight: 700; }
+
+        /* HERO SECTION */
+        .hero { padding: 5rem 0; background: linear-gradient(135deg, #ffffff 0%, #eef7ff 100%); overflow: hidden; }
+        .hero .container { display: flex; align-items: center; justify-content: center; gap: 2rem; min-height: 70vh; }
+        .hero-text { flex-basis: 50%; padding-right: 3rem; text-align: left; z-index: 2; }
+        .hero-text h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 1rem; }
+        .hero-text .tagline { font-size: 1.2rem; margin-bottom: 2.5rem; color: #555; }
+        .btn-hero { background: var(--secondary-color); color: var(--light-color); padding: 15px 40px; font-size: 1.1rem; border-radius: 50px; text-decoration: none; display: inline-block; font-weight: 600; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .btn-hero:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 119, 182, 0.3); }
+        .hero-visuals { flex-basis: 50%; perspective: 1000px; }
+        .card-slider-container { position: relative; width: 320px; height: 400px; margin: auto; }
+        .slide-card { position: absolute; width: 100%; height: 100%; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.7s ease-in-out; cursor: pointer; }
+        .slide-card img { width: 100%; height: 100%; object-fit: cover; }
+        .slide-card.active { transform: translateX(0) scale(1); z-index: 10; opacity: 1; }
+        .slide-card.next { transform: translateX(40px) scale(0.9) rotate(5deg); z-index: 9; opacity: 0.8; }
+        .slide-card.next-next { transform: translateX(80px) scale(0.8) rotate(10deg); z-index: 8; opacity: 0.5; }
+        .slide-card.prev { transform: translateX(-80px) scale(0.8) rotate(-10deg); opacity: 0; z-index: 7; }
+        .wave-divider { position: relative; width: 100%; height: 100px; }
+        .wave-divider svg { position: absolute; bottom: 0; width: 100%; height: 100%; }
+        
+        /* GENERAL SECTION STYLES */
+        .section { padding: 60px 0; }
+        .section-title { text-align: center; font-size: 2.8rem; margin-bottom: 50px; }
+        
+        /* WHY US SECTION */
+        .why-us-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; text-align: center; }
+        .why-us-card { background: var(--light-color); padding: 30px 20px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.07); }
+        .why-us-card .icon { font-size: 3rem; color: var(--primary-color); margin-bottom: 15px; }
+
+        /* QUIZ SECTION STYLES */
+        .quiz-container { max-width: 700px; margin: auto; background: var(--light-color); padding: 30px 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; }
+        .quiz-container h3 { margin-bottom: 25px; font-size: 1.4rem; color: var(--dark-color); }
+        .quiz-options { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .quiz-option { padding: 12px 25px; border: 2px solid var(--border-color); border-radius: 50px; cursor: pointer; transition: all 0.3s ease; font-weight: 500; }
+        .quiz-option input { display: none; }
+        .quiz-option:hover { background-color: #f4f4f4; border-color: var(--secondary-color); }
+        .quiz-option:has(input:checked) { background-color: var(--secondary-color); color: var(--light-color); border-color: var(--secondary-color); transform: scale(1.05); }
+        #quiz-result { margin-top: 25px; padding: 15px; background-color: #eef7ff; border-radius: 8px; border: 1px solid var(--secondary-color); font-weight: 500; color: var(--dark-color); transition: all 0.3s ease; }
+
+        /* PRODUCTS SECTION */
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .product-card { background: var(--light-color); border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); text-align: center; padding: 15px; display: flex; flex-direction: column; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .product-card .img-container { position: relative; overflow: hidden; border-radius: 5px; margin-bottom: 15px; }
+        .product-card img { width: 100%; height: 160px; object-fit: cover; transition: transform 0.4s ease; }
+        .product-card:hover img { transform: scale(1.1); }
+        .product-card h3 { font-size: 1.2rem; margin-bottom: 8px; }
+        .product-card p { font-size: 0.9rem; margin-bottom: 1rem; }
+        .product-card-footer { margin-top: auto; padding-top: 1rem; }
+        .product-price { font-size: 1.3rem; font-weight: 700; color: var(--accent-color); margin-bottom: 15px; }
+        .product-level-select { display: block; width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 5px; font-family: 'Poppins', sans-serif; background-color: #f9f9f9; }
+        .btn { display: inline-block; background: var(--primary-color); color: var(--dark-color); padding: 10px 22px; border-radius: 50px; text-decoration: none; font-weight: 600; border: none; cursor: pointer; transition: all 0.3s ease; }
+        .btn:hover { background: #ffb700; }
+        .btn.added { background: var(--success-color); color: white; }
+        
+        /* CONTACT & FOOTER */
+        .contact-details { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; text-align: center; }
+        .contact-item { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 12px; }
+        .contact-item a { color: var(--secondary-color); text-decoration: none; }
+        .contact-item .fab, .contact-item .fas { font-size: 1.8rem; }
+        .contact-item .fa-phone-alt { color: var(--secondary-color); }
+        .contact-item .fa-whatsapp { color: #25D366; }
+        .contact-item .fa-instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .main-footer { background: var(--dark-color); color: var(--light-color); text-align: center; padding: 2rem 0; margin-top: 40px; }
+        
+        /* REQUEST FORM STYLES */
+        #request-form-section { background: linear-gradient(160deg, #eef7ff 0%, #ffffff 100%); }
+        .request-form-container { max-width: 850px; margin: auto; background: #ffffff; padding: 30px 40px; border-radius: 12px; box-shadow: 0 15px 40px rgba(0, 81, 126, 0.1); border: 1px solid #e9ecef; }
+        .request-form-layout { display: flex; flex-wrap: wrap; gap: 40px; }
+        .form-details-column, .list-column { flex: 1; min-width: 300px; }
+        .form-title { font-size: 1.4rem; font-weight: 600; color: var(--dark-color); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--primary-color); display: inline-block; }
+        .request-form-container label { font-weight: 500; margin-bottom: 8px; display: block; color: #555; font-size: 0.9rem; }
+        .request-form-container input[type="text"], .request-form-container input[type="tel"] { width: 100%; padding: 12px 15px; margin-bottom: 20px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; font-family: 'Poppins', sans-serif; transition: border-color 0.3s, box-shadow 0.3s; }
+        .request-form-container input:focus { outline: none; border-color: var(--secondary-color); box-shadow: 0 0 0 4px rgba(0, 119, 182, 0.1); }
+        .list-column { background-color: #f8f9fa; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; }
+        #request-list { list-style: none; padding: 0; flex-grow: 1; max-height: 250px; overflow-y: auto; }
+        #request-list li { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #e9ecef; font-size: 0.95rem; }
+        #request-list li:last-child { border-bottom: none; }
+        .remove-item-btn { background: none; border: none; color: #aaa; cursor: pointer; font-size: 1.5rem; line-height: 1; padding: 0 5px; transition: color 0.3s, transform 0.2s; }
+        .remove-item-btn:hover { color: var(--accent-color); transform: scale(1.1); }
+        #request-list-placeholder { color: #888; text-align: center; padding: 40px 20px; font-size: 0.9rem; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .btn-submit-request { background: var(--secondary-color); color: var(--light-color); width: 100%; padding: 15px; font-size: 1.1rem; margin-top: 25px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: background-color 0.3s, transform 0.2s; }
+        .btn-submit-request:hover { background: #005f8a; transform: translateY(-2px); }
+
+        /* ANIMATIONS & RESPONSIVENESS */
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+        @media(max-width: 900px) {
+            .hero .container { flex-direction: column; text-align: center; }
+            .hero-text { text-align: center; padding-right: 0; }
+            .hero-visuals { width: 100%; margin-top: 2rem; }
+            .main-nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Abacus<span> Spark</span></a>
+            <nav class="main-nav"><a href="#shop">Shop</a><a href="#about">Why Us</a><a href="#request-form-section">Request Form</a><a href="#contact">Contact</a></nav>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-text">
+                <h1>Ignite Your Child's Mind</h1>
+                <p class="tagline">See the joy of learning in action. Our kits make math a fun, colorful, and hands-on adventure.</p>
+                <a href="#shop" class="btn-hero">Explore Our Kits</a>
+            </div>
+            <div class="hero-visuals">
+                <div class="card-slider-container">
+                    <div class="slide-card active"><img src="image1.jpg" alt="Child learning with an abacus"></div>
+                    <div class="slide-card next"><img src="image2.jpg" alt="Student focused on their workbook"></div>
+                    <div class="slide-card next-next"><img src="image3.jpg" alt="Happy kids in a classroom environment"></div>
+                    <div class="slide-card prev"><img src="image.jpg" alt="Girl proudly holding her book"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="wave-divider" style="background: linear-gradient(135deg, #ffffff 0%, #eef7ff 100%);"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" style="fill: #f8f9fa;"></path></svg></div>
+    
+    <section id="about" class="section"><div class="container"><h2 class="section-title animate-on-scroll">Why Abacus Spark?</h2><div class="why-us-grid"><div class="why-us-card animate-on-scroll"><div class="icon">🏆</div><h3>Quality Materials</h3><p>Durable, child-safe, and designed for countless hours of fun learning.</p></div><div class="why-us-card animate-on-scroll"><div class="icon">💡</div><h3>Expert Designed</h3><p>Our curriculum-aligned books and papers build skills step-by-step.</p></div><div class="why-us-card animate-on-scroll"><div class="icon">❤️</div><h3>Fun Guaranteed</h3><p>We turn math from a chore into a joyful and colorful adventure.</p></div></div></div></section>
+
+    <section id="quiz-section" class="section"><div class="container"><h2 class="section-title animate-on-scroll">Don't Know Where to Start?</h2><div class="quiz-container animate-on-scroll"><h3>Find the perfect kit for your child's level:</h3><div class="quiz-options"><label class="quiz-option"><input type="radio" name="age-group" value="beginner" checked><span>Beginner (Ages 4-6)</span></label><label class="quiz-option"><input type="radio" name="age-group" value="intermediate"><span>Intermediate (Ages 7-9)</span></label><label class="quiz-option"><input type="radio" name="age-group" value="advanced"><span>Advanced (Ages 10+)</span></label></div><button id="quiz-submit" class="btn">Get Recommendation</button><div id="quiz-result" style="display: none;"></div></div></div></section>
+
+    <section id="shop" class="section">
+         <div class="wave-divider" style="transform: rotate(180deg); top: -1px; bottom: auto; background: #f8f9fa;"><svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" style="fill: #ffffff;"></path></svg></div>
+        <div class="container" style="background: white; padding-top: 60px; padding-bottom: 60px; border-radius: 12px;">
+            <h2 class="section-title animate-on-scroll">Our Products</h2>
+            <div class="products-grid">
+                <!-- Product Cards... -->
+                <div class="product-card animate-on-scroll">
+                    <div class="img-container"><img src="abacuskit.jpg" alt="Abacus Kit with books"></div>
+                    <h3>Abacus Kit</h3><p>The perfect 17-rod student abacus to start the journey.</p>
+                    <div class="product-card-footer"><div class="product-price">₹70</div><button class="btn add-to-request-btn">Add to Request</button></div>
+                </div>
+                <div class="product-card animate-on-scroll">
+                    <div class="img-container"><img src="colourkit1.jpg" alt="Colour Abacus Kit"></div>
+                    <h3>Abacus Colour Kit</h3><p>This vibrant abacus makes visual learning fun and engaging.</p>
+                    <div class="product-card-footer"><div class="product-price">₹90</div><button class="btn add-to-request-btn">Add to Request</button></div>
+                </div>
+                <div class="product-card animate-on-scroll">
+                    <div class="img-container"><img src="abacusbook.jpg" alt="Abacus Books"></div>
+                    <h3>Abacus Practice Books</h3><p>Select your level below to master the abacus step-by-step.</p>
+                    <div class="product-card-footer">
+                        <!-- UPDATED DROPDOWN FOR BOOKS -->
+                        <select class="product-level-select">
+                            <option>Zero Level</option>
+                            <option>First Level</option>
+                            <option>Second Level</option>
+                            <option>Third Level</option>
+                            <option>Fourth Level</option>
+                            <option>Fifth Level</option>
+                            <option>Sixth Level</option>
+                            <option>Seventh Level</option>
+                            <option>Eighth Level</option>
+                        </select>
+                        <div class="product-price">₹60</div><button class="btn add-to-request-btn">Add to Request</button>
+                    </div>
+                </div>
+                <div class="product-card animate-on-scroll">
+                    <div class="img-container"><img src="Questionpaper.jpg" alt="Question Papers"></div>
+                    <h3>Question Papers</h3><p>Test and sharpen skills with papers for speed and accuracy.</p>
+                    <div class="product-card-footer">
+                        <!-- UPDATED DROPDOWN FOR PAPERS -->
+                        <select class="product-level-select">
+                            <option>Zero Level</option>
+                            <option>First Level</option>
+                            <option>Second Level</option>
+                            <option>Third Level</option>
+                            <option>Fourth Level</option>
+                            <option>Fifth Level</option>
+                            <option>Sixth Level</option>
+                            <option>Seventh Level</option>
+                            <option>Eighth Level</option>
+                        </select>
+                        <div class="product-price">₹20</div><button class="btn add-to-request-btn">Add to Request</button>
+                    </div>
+                </div>
+                <div class="product-card animate-on-scroll">
+                    <div class="img-container"><img src="flashcard.jpg" alt="Flashcards"></div>
+                    <h3>Abacus Flashcards</h3><p>The ultimate tool for rapid mental math and visualization.</p>
+                    <div class="product-card-footer"><div class="product-price">₹150</div><button class="btn add-to-request-btn">Add to Request</button></div>
+                </div>
+                <div class="product-card animate-on-scroll">
+                    <div class="img-container"><img src="Masterkid.jpg" alt="Master Abacus kit"></div>
+                    <h3>Master Abacus Kit</h3><p>A complete set for teachers and professional trainers.</p>
+                    <div class="product-card-footer"><div class="product-price">₹1600</div><button class="btn add-to-request-btn">Add to Request</button></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="request-form-section" class="section">
+        <div class="container">
+             <h2 class="section-title animate-on-scroll">Complete Your Request</h2>
+             <div class="request-form-container animate-on-scroll">
+                <form id="call-request-form">
+                    <div class="request-form-layout">
+                        <div class="form-details-column">
+                            <h3 class="form-title">Your Details</h3>
+                            <label for="customer-name">Full Name</label>
+                            <input type="text" id="customer-name" name="name" placeholder="e.g. Priya" required>
+                            <label for="customer-phone">Phone Number (for callback)</label>
+                            <input type="tel" id="customer-phone" name="phone" placeholder="e.g. 98765 43210" required>
+                             <button type="submit" class="btn btn-submit-request">
+                                <span>Submit Request for Callback</span>
+                                <span>➤</span>
+                            </button>
+                        </div>
+                        <div class="list-column">
+                            <h3 class="form-title">Requested Items</h3>
+                            <ul id="request-list">
+                               <li id="request-list-placeholder">Your selected items will appear here.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+             </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Get In Touch!</h2>
+            <div class="contact-details animate-on-scroll">
+                <div class="contact-item"><i class="fas fa-phone-alt"></i><a href="tel:+91903622493">Phone: +91 9003622493</a></div>
+                <div class="contact-item"><i class="fab fa-whatsapp"></i><a href="https://wa.me/919003622493" target="_blank">WhatsApp Us</a></div>
+                <div class="contact-item"><i class="fab fa-instagram"></i><a href="https://instagram.com/abacus_spark" target="_blank">Instagram: @abacus_spark</a></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container"><p>© 2024 Abacus Spark. All Rights Reserved.</p></div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // SLIDER LOGIC
+            const slides = document.querySelectorAll('.slide-card');
+            if (slides.length > 0) {
+                let currentIndex = 0;
+                function updateSlides() {
+                    slides.forEach((slide, i) => {
+                        slide.classList.remove('active', 'next', 'next-next', 'prev');
+                        if (i === currentIndex) { slide.classList.add('active');
+                        } else if (i === (currentIndex + 1) % slides.length) { slide.classList.add('next');
+                        } else if (i === (currentIndex + 2) % slides.length) { slide.classList.add('next-next');
+                        } else { slide.classList.add('prev'); }
+                    });
+                }
+                function goToNextSlide() {
+                    currentIndex = (currentIndex + 1) % slides.length;
+                    updateSlides();
+                }
+                setInterval(goToNextSlide, 4000);
+                slides.forEach(slide => {
+                    slide.addEventListener('click', () => { goToNextSlide(); });
+                });
+                updateSlides();
+            }
+
+            // SCROLL ANIMATION LOGIC
+            const scrollElements = document.querySelectorAll(".animate-on-scroll");
+            const handleScrollAnimation = () => { scrollElements.forEach(el => { if(el.getBoundingClientRect().top <= window.innerHeight) el.classList.add("is-visible"); }); };
+            window.addEventListener("scroll", handleScrollAnimation);
+            handleScrollAnimation();
+
+            // REQUEST FORM LOGIC
+            const requestButtons = document.querySelectorAll('.add-to-request-btn');
+            const requestListElement = document.getElementById('request-list');
+            const requestFormSection = document.getElementById('request-form-section');
+            const requestCountElement = document.querySelector('.cart-count');
+            const callRequestForm = document.getElementById('call-request-form');
+            const listPlaceholder = document.getElementById('request-list-placeholder');
+            let requestedItems = [];
+            function renderRequestList() {
+                requestListElement.innerHTML = ''; 
+                if (requestedItems.length === 0) {
+                    if (listPlaceholder) listPlaceholder.style.display = 'flex';
+                } else {
+                    if (listPlaceholder) listPlaceholder.style.display = 'none';
+                    requestedItems.forEach(item => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<span>${item.name}</span> <button class="remove-item-btn" data-id="${item.id}" title="Remove Item">×</button>`;
+                        requestListElement.appendChild(li);
+                    });
+                }
+                requestCountElement.textContent = requestedItems.length;
+            }
+            requestButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productCard = e.target.closest('.product-card');
+                    let productName = productCard.querySelector('h3').textContent;
+                    const levelSelect = productCard.querySelector('.product-level-select');
+                    if (levelSelect) productName += ` (${levelSelect.value})`;
+                    const itemId = productName.replace(/\s+/g, '-').toLowerCase();
+                    if (!requestedItems.some(item => item.id === itemId)) {
+                        requestedItems.push({ id: itemId, name: productName });
+                        renderRequestList();
+                        e.target.textContent = '✓ Added';
+                        e.target.classList.add('added');
+                        setTimeout(() => { e.target.textContent = 'Add to Request'; e.target.classList.remove('added'); }, 1500);
+                        requestFormSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    } else {
+                        alert('This item is already in your request list.');
+                        requestFormSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                });
+            });
+            requestListElement.addEventListener('click', (e) => {
+                if (e.target.classList.contains('remove-item-btn')) {
+                    const itemId = e.target.dataset.id;
+                    requestedItems = requestedItems.filter(item => item.id !== itemId);
+                    renderRequestList();
+                }
+            });
+            callRequestForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (requestedItems.length === 0) { alert('Please add at least one item to your request list before submitting.'); return; }
+                const customerName = document.getElementById('customer-name').value;
+                const customerPhone = document.getElementById('customer-phone').value;
+                if (!customerName || !customerPhone) { alert('Please fill in your name and phone number to request a callback.'); return; }
+                const yourEmail = 'your-email@example.com';
+                let emailBody = `New Callback Request from Abacus Spark Website:\n\n================================\nCUSTOMER DETAILS:\nName: ${customerName}\nPhone Number: ${customerPhone}\n\nREQUESTED PRODUCTS:\n`;
+                requestedItems.forEach(item => { emailBody += `- ${item.name}\n`; });
+                emailBody += `================================\n\nPlease call the customer back to confirm the order.`;
+                const subject = `New Product Inquiry from ${customerName}`;
+                window.location.href = `mailto:${yourEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
+                alert("Thank you! Your email client will now open. Please press 'Send' to complete your request.");
+                callRequestForm.reset();
+                requestedItems = [];
+                renderRequestList();
+            });
+            renderRequestList();
+            
+            // QUIZ FUNCTIONALITY
+            const quizSubmitButton = document.getElementById('quiz-submit');
+            const quizResultDiv = document.getElementById('quiz-result');
+            if(quizSubmitButton) {
+                quizSubmitButton.addEventListener('click', () => {
+                    const selectedOption = document.querySelector('input[name="age-group"]:checked');
+                    if (!selectedOption) {
+                        quizResultDiv.innerHTML = 'Please select an option first!';
+                        quizResultDiv.style.color = 'var(--accent-color)';
+                        quizResultDiv.style.display = 'block';
+                        return;
+                    }
+                    let recommendation = '';
+                    switch(selectedOption.value) {
+                        case 'beginner': recommendation = 'Great start! We recommend the <strong> Starter Level Books</strong>.'; break;
+                        case 'intermediate': recommendation = 'Perfect! The <strong>Zero Level Books </strong> will be a great challenge.'; break;
+                        case 'advanced': recommendation = 'Excellent! Explore our <strong>First level books </strong> to master mental math.'; break;
+                    }
+                    quizResultDiv.innerHTML = recommendation;
+                    quizResultDiv.style.color = 'var(--dark-color)';
+                    quizResultDiv.style.display = 'block';
+                });
+            }
+        });
+    </script>
+</body>
+</html>
